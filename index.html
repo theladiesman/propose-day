@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aduu paduu, will you be my forever?</title>
 
+<!-- Lottie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
 <style>
 :root{
   --pink1:#ffd6e7;
@@ -33,17 +36,17 @@ body{
   100%{background-position:0% 50%}
 }
 
+/* MAIN SCENES */
 main{
   min-height:100vh;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
   text-align:center;
   padding:40px 20px;
 }
 
-/* HEART / ROSE */
+/* HEART */
 .heart{
   font-size:80px;
   animation:pulse 2.5s ease-in-out infinite;
@@ -69,6 +72,7 @@ h1{
   display:flex;
   gap:20px;
   flex-wrap:wrap;
+  justify-content:center;
 }
 
 button{
@@ -100,20 +104,32 @@ button{
   opacity:.85;
 }
 
-/* YES SCENE */
+/* YES SCREEN FIX (IMPORTANT) */
 #scene2{
   display:none;
-  flex-direction:column;
-  gap:20px;
-  max-width:700px;
 }
 
-/* WHY IT MEANS SO MUCH */
+.yes-inner{
+  max-width:640px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+}
+
+/* WHY SECTION */
 .why{
-  margin-top:40px;
+  margin-top:20px;
   font-size:16px;
   line-height:1.8;
   opacity:.9;
+}
+
+/* LOTTIE */
+#lottie{
+  width:240px;
+  height:240px;
 }
 
 /* PETALS */
@@ -137,83 +153,94 @@ button{
 
 <body>
 
+<!-- MUSIC -->
 <audio id="bgMusic" loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/10/26/audio_73d9d45c6c.mp3" type="audio/mpeg">
 </audio>
 
+<!-- SCENE 1 -->
 <main id="scene1">
-  <div class="heart">🤍</div>
+  <div>
+    <div class="heart">🤍</div>
 
-  <h1>Aduu paduu,<br>will you be my forever?</h1>
+    <h1>Aduu paduu,<br>will you be my forever?</h1>
 
-  <div class="sub">Choose carefully ☺️</div>
+    <div class="sub">This isn’t from my mind… it’s from my heart ☺️</div>
 
-  <div class="buttons">
-    <button id="yes">Yes</button>
-    <button id="no">No</button>
+    <div class="buttons">
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+
+    <div id="convince"></div>
   </div>
-
-  <div id="convince"></div>
 </main>
 
+<!-- SCENE 2 (YES) -->
 <main id="scene2">
-  <h1>You chose YES 🥺💖</h1>
+  <div class="yes-inner">
+    <h1>You chose YES 🥺💖</h1>
 
-  <p>I knew it, Aduu paduu 🤍</p>
+    <div id="lottie"></div>
 
-  <p>
-    Forever with you feels easy.<br>
-    It feels warm.<br>
-    It feels right.
-  </p>
+    <p>
+      I knew it, Aduu paduu 🤍<br><br>
 
-  <p>
-    This isn’t just a yes —<br>
-    it’s a lifetime ✨
-  </p>
+      Forever with you feels calm.<br>
+      It feels safe.<br>
+      It feels like home.
+    </p>
 
-  <div class="why">
-    <strong>Why this means so much to me:</strong><br><br>
+    <div class="why">
+      <strong>Why this means so much to me:</strong><br><br>
 
-    Because choosing you wasn’t something I had to think about —  
-    it felt natural, like my heart already knew.<br><br>
+      Because choosing you never felt forced —  
+      my heart did it naturally.<br><br>
 
-    You make the chaos in my head quieter.  
-    You make ordinary days feel special without even trying.<br><br>
+      You quiet the noise in my head,  
+      make ordinary days feel special,  
+      and love with you feels easy and honest.<br><br>
 
-    With you, love doesn’t feel heavy or scary —  
-    it feels safe, honest, and calm.<br><br>
+      Choosing you forever means choosing peace,  
+      growth, laughter, and a life  
+      where I can be completely myself.<br><br>
 
-    Choosing you forever means choosing peace, laughter, growth,  
-    and a life where I never have to pretend.<br><br>
-
-    And that… means everything to me 🤍
+      And that… means everything to me 🤍
+    </div>
   </div>
 </main>
 
 <script>
 /* NO BUTTON LINES */
-const lines = [
+const lines=[
   "Are you sure? 🥺",
   "Think again, Aduu paduu 🤍",
   "This option doesn’t feel right…",
-  "Forever sounds scary, but with me it’s soft.",
-  "You know your heart already chose 💖"
+  "Forever sounds scary — but with me it’s safe.",
+  "You already know what your heart wants 💖"
 ];
-let count = 0;
+let count=0;
 
-document.getElementById("no").onclick = () => {
+document.getElementById("no").onclick=()=>{
   document.getElementById("convince").innerText =
-    lines[Math.min(count, lines.length-1)];
+    lines[Math.min(count,lines.length-1)];
   count++;
 };
 
 /* YES BUTTON */
-document.getElementById("yes").onclick = () => {
+document.getElementById("yes").onclick=()=>{
   document.getElementById("scene1").style.display="none";
   const s2=document.getElementById("scene2");
   s2.style.display="flex";
   document.getElementById("bgMusic").play();
+
+  lottie.loadAnimation({
+    container: document.getElementById("lottie"),
+    renderer: "svg",
+    loop: true,
+    autoplay: true,
+    path: "heart.json"
+  });
 };
 
 /* PETALS */
@@ -232,6 +259,7 @@ setInterval(()=>{
 
 </body>
 </html>
+
 
 
 
