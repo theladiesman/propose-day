@@ -1,256 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Will you be my forever?</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aduu paduu, will you be my forever?</title>
+
+<!-- Soft instrumental music -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_7e1d5a8e07.mp3" type="audio/mpeg">
+</audio>
 
 <style>
-:root{
-  --pink1:#fff1f7;
-  --pink2:#ffd6e8;
-  --pink3:#ffbcd6;
-  --accent:#ff5c9a;
-  --text:#2e2e2e;
+:root {
+  --pink1:#ffd6e7;
+  --pink2:#fff1f7;
+  --pink3:#ffc1d9;
 }
 
-*{box-sizing:border-box}
+* { box-sizing: border-box; }
 
-body{
+body {
   margin:0;
   min-height:100vh;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-  color:var(--text);
-  background:linear-gradient(120deg,var(--pink1),var(--pink2),var(--pink3));
-  background-size:400% 400%;
-  animation:bgMove 18s ease infinite;
-  overflow-x:hidden;
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(120deg, var(--pink1), var(--pink2), var(--pink3));
+  background-size: 300% 300%;
+  animation: bgMove 18s ease infinite;
+  overflow-x: hidden;
+  color:#2b2b2b;
 }
 
-@keyframes bgMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* 🌸 white rose petals */
-.petal{
-  position:fixed;
-  top:-40px;
-  width:22px;
-  opacity:.85;
-  pointer-events:none;
-  animation:fall linear forwards;
-}
-
-@keyframes fall{
-  to{
-    transform:translateY(120vh) rotate(360deg);
-    opacity:0;
-  }
-}
-
-/* 🌷 layout */
-.wrapper{
+main {
   min-height:100vh;
   display:flex;
-  justify-content:center;
+  flex-direction:column;
   align-items:center;
-  padding:70px 20px;
-}
-
-.content{
-  max-width:720px;
+  justify-content:center;
   text-align:center;
-  animation:fadeUp 1s ease;
+  padding:40px 20px;
 }
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(25px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-h1{
-  font-size:clamp(34px,5vw,54px);
-  font-weight:800;
+h1 {
+  font-size: clamp(32px,5vw,52px);
   margin-bottom:10px;
 }
 
-.subtitle{
+.sub {
+  opacity:.8;
+  margin-bottom:30px;
   font-size:16px;
-  opacity:.75;
-  margin-bottom:28px;
 }
 
-.heart{
-  font-size:46px;
-  animation:pulse 2.2s infinite;
-  margin:14px 0 32px;
+.rose {
+  width:160px;
+  margin:20px 0;
+  animation: float 6s ease-in-out infinite;
+  filter: drop-shadow(0 10px 25px rgba(255,255,255,.6));
 }
 
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.15)}
-  100%{transform:scale(1)}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
 }
 
-/* buttons */
-.buttons{
+.buttons {
+  margin-top:30px;
   display:flex;
-  justify-content:center;
   gap:20px;
 }
 
-button{
-  padding:14px 36px;
-  border-radius:999px;
-  border:none;
+button {
+  padding:16px 28px;
   font-size:18px;
   font-weight:700;
+  border-radius:999px;
+  border:none;
   cursor:pointer;
-  transition:transform .15s ease, background .15s ease;
 }
 
-#yesBtn{
-  background:var(--accent);
-  color:white;
-  animation:yesGlow 2.5s infinite;
+#yes {
+  background:#ff4f87;
+  color:#fff;
 }
 
-@keyframes yesGlow{
-  0%{box-shadow:0 0 0 rgba(255,92,154,.4)}
-  50%{box-shadow:0 0 24px rgba(255,92,154,.55)}
-  100%{box-shadow:0 0 0 rgba(255,92,154,.4)}
+#no {
+  background:#eee;
 }
 
-#noBtn{
-  background:rgba(255,255,255,.7);
-  color:#444;
+.no-lines {
+  margin-top:20px;
+  font-size:15px;
+  opacity:.9;
+  max-width:320px;
 }
 
-/* No responses */
-.no-messages{
-  margin-top:14px;
-  font-size:14px;
-  color:#555;
-}
-
-.no-line{
-  margin-top:6px;
-  opacity:0;
-  animation:slideIn .45s ease forwards;
-}
-
-@keyframes slideIn{
-  from{transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* YES message */
-.message{
+.result {
   display:none;
-  margin-top:36px;
-  animation:fadeUp .7s ease;
+  max-width:620px;
+  animation: fadeIn .6s ease;
 }
 
-.message h2{
-  font-size:clamp(28px,4.5vw,46px);
-  margin-bottom:18px;
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(10px); }
+  to { opacity:1; transform:none; }
 }
 
-.message p{
-  font-size:16px;
-  line-height:1.9;
-  margin-bottom:14px;
+/* White rose petals */
+.petal {
+  position:fixed;
+  top:-40px;
+  width:22px;
+  opacity:.6;
+  animation: fall linear forwards;
+  pointer-events:none;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎶 background music -->
-<audio id="music" autoplay loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/10/03/audio_7b5c9a0f7a.mp3?filename=soft-piano-ambient-121997.mp3" type="audio/mpeg">
-</audio>
+<main id="scene1">
+  <h1>Aduu paduu,<br>will you be my forever?</h1>
+  <div class="sub">Choose carefully ☺️</div>
 
-<div class="wrapper">
-  <div class="content">
+  <!-- White Rose SVG -->
+  <svg class="rose" viewBox="0 0 200 200">
+    <path fill="#ffffff" d="M100 30c20 0 40 20 40 40s-20 40-40 40-40-20-40-40 20-40 40-40z"/>
+    <path fill="#f5f5f5" d="M100 60c15 0 30 15 30 30s-15 30-30 30-30-15-30-30 15-30 30-30z"/>
+  </svg>
 
-    <h1>Aduu paduu,<br>will you be my forever?</h1>
-    <div class="subtitle">Choose with your heart 🤍</div>
-    <div class="heart">🤍</div>
-
-    <div class="buttons">
-      <button id="yesBtn">Yes</button>
-      <button id="noBtn">No</button>
-    </div>
-
-    <div class="no-messages" id="noMessages"></div>
-
-    <div class="message" id="yesMessage">
-      <h2>You chose YES 🥺💖</h2>
-      <p>I knew it, Aduuu paduuu 🤍</p>
-      <p>Forever with you doesn’t feel heavy.<br>
-         It feels calm.<br>
-         It feels safe.<br>
-         It feels right.</p>
-      <p>This isn’t just a yes —<br>
-         it’s a lifetime we’re choosing together ✨</p>
-    </div>
-
+  <div class="buttons">
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
   </div>
-</div>
+
+  <div class="no-lines" id="noLines"></div>
+</main>
+
+<main id="scene2" class="result">
+  <h1>You chose YES 🥺💖</h1>
+  <p>
+    I knew it, Aduu paduu 🤍<br><br>
+    Forever with you feels easy.<br>
+    It feels warm.<br>
+    It feels right.<br><br>
+    This isn’t just a yes —<br>
+    it’s a lifetime ✨
+  </p>
+</main>
 
 <script>
-/* 🌸 white rose petal SVG */
-const roseSVG = `
-<svg viewBox="0 0 24 24" fill="white">
-<path d="M12 2c2.5 2 4 4.5 4 7.5S14.5 15 12 15
-8 15 6 12.5 6 9.5 7.5 4 12 2z"/>
-</svg>`;
-
-/* petals loop */
-setInterval(()=>{
-  const petal=document.createElement("div");
-  petal.className="petal";
-  petal.innerHTML=roseSVG;
-  petal.style.left=Math.random()*100+"vw";
-  petal.style.animationDuration=(8+Math.random()*6)+"s";
-  petal.style.transform=`scale(${0.6+Math.random()})`;
-  document.body.appendChild(petal);
-  setTimeout(()=>petal.remove(),15000);
-},500);
-
-/* No button logic */
-const noLines=[
-  "Hmm… are you sure? 🤍",
-  "Think again, my love 🥺",
-  "That doesn’t feel like the right answer 😌",
-  "Your heart knows the truth ✨",
-  "Forever sounds scary… until it’s us 💗",
-  "Okay last chance… choose love 🤍"
+const noLines = [
+  "Are you sure? My heart is already yours 🤍",
+  "Think again… forever sounds nice with us 🥺",
+  "I promise I’ll choose you every single day 💖",
+  "This button exists only to tease you 😌",
+  "Okay but… imagine us years from now 🤍"
 ];
-let noIndex=0;
 
-document.getElementById("noBtn").onclick=()=>{
-  if(noIndex<noLines.length){
-    const line=document.createElement("div");
-    line.className="no-line";
-    line.textContent=noLines[noIndex++];
-    document.getElementById("noMessages").appendChild(line);
-  }
+let noCount = 0;
+
+document.getElementById("no").onclick = () => {
+  document.getElementById("noLines").innerText = noLines[noCount % noLines.length];
+  noCount++;
 };
 
-/* YES */
-document.getElementById("yesBtn").onclick=()=>{
-  document.querySelector(".buttons").style.display="none";
-  document.getElementById("noMessages").style.display="none";
-  document.getElementById("yesMessage").style.display="block";
+document.getElementById("yes").onclick = () => {
+  document.getElementById("scene1").style.display = "none";
+  document.getElementById("scene2").style.display = "flex";
+  document.getElementById("bgMusic").play();
 };
+
+// Petals
+setInterval(() => {
+  const p = document.createElement("img");
+  p.src = "https://upload.wikimedia.org/wikipedia/commons/3/36/White_rose_petal.svg";
+  p.className = "petal";
+  p.style.left = Math.random()*100 + "vw";
+  p.style.animationDuration = (6 + Math.random()*4) + "s";
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 10000);
+}, 700);
 </script>
 
 </body>
 </html>
+
 
 
 
