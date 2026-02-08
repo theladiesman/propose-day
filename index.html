@@ -7,12 +7,12 @@
 
 <style>
 :root{
-  --bg1:#ffe6f0;
-  --bg2:#ffd1e3;
-  --card:#ffffff;
-  --pink:#ff5c9a;
-  --soft:#ff9fc4;
+  --pink1:#ffe6f0;
+  --pink2:#ffd1e3;
+  --pink3:#ffb7d5;
+  --accent:#ff5c9a;
   --text:#2f2f2f;
+  --card:#ffffff;
 }
 
 *{box-sizing:border-box}
@@ -20,37 +20,58 @@
 body{
   margin:0;
   min-height:100vh;
+  background:linear-gradient(
+    120deg,
+    var(--pink1),
+    var(--pink2),
+    var(--pink3)
+  );
+  background-size:400% 400%;
+  animation:bgMove 14s ease infinite;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* white rose petals */
+.petal{
+  position:fixed;
+  top:-40px;
+  color:white;
+  font-size:18px;
+  opacity:.85;
+  animation:fall linear forwards;
+  pointer-events:none;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* card */
+.wrapper{
   display:grid;
   place-items:center;
-  background:radial-gradient(circle at top,var(--bg1),var(--bg2));
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-  overflow:hidden;
-}
-
-/* floating glow animation */
-.glow{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 25% 30%, rgba(255,92,154,.18), transparent 40%),
-    radial-gradient(circle at 75% 70%, rgba(255,159,196,.22), transparent 45%);
-  animation: drift 12s ease-in-out infinite alternate;
-}
-
-@keyframes drift{
-  from{transform:translateY(-12px)}
-  to{transform:translateY(12px)}
+  padding:40px 16px 80px;
 }
 
 .card{
   width:min(720px,92vw);
   background:var(--card);
-  padding:38px 28px;
-  border-radius:28px;
+  border-radius:30px;
+  padding:42px 30px;
   text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.15);
-  animation: fadeIn .8s ease;
+  box-shadow:0 25px 70px rgba(0,0,0,.18);
+  animation:fadeIn .8s ease;
 }
 
 @keyframes fadeIn{
@@ -59,9 +80,8 @@ body{
 }
 
 h1{
-  font-size:clamp(28px,4vw,44px);
-  color:var(--text);
-  margin-bottom:8px;
+  font-size:clamp(30px,4.5vw,46px);
+  margin-bottom:6px;
 }
 
 .sub{
@@ -70,17 +90,16 @@ h1{
   margin-bottom:22px;
 }
 
-/* pulsing heart */
 .heart{
-  font-size:42px;
-  color:var(--soft);
+  font-size:44px;
+  color:#ffdfe9;
   animation:pulse 2s infinite;
-  margin:12px 0 24px;
+  margin:14px 0 26px;
 }
 
 @keyframes pulse{
   0%{transform:scale(1)}
-  50%{transform:scale(1.12)}
+  50%{transform:scale(1.15)}
   100%{transform:scale(1)}
 }
 
@@ -92,7 +111,7 @@ h1{
 }
 
 button{
-  padding:14px 30px;
+  padding:14px 32px;
   font-size:18px;
   font-weight:700;
   border-radius:999px;
@@ -102,14 +121,14 @@ button{
 }
 
 #yesBtn{
-  background:var(--pink);
-  color:#fff;
-  animation: yesPulse 2.2s infinite;
+  background:var(--accent);
+  color:white;
+  animation:yesPulse 2.2s infinite;
 }
 
 @keyframes yesPulse{
   0%{transform:scale(1)}
-  50%{transform:scale(1.05)}
+  50%{transform:scale(1.06)}
   100%{transform:scale(1)}
 }
 
@@ -118,21 +137,16 @@ button{
   color:#444;
 }
 
-#noBtn:hover{
-  background:#e6e6e6;
-}
-
-/* No-response messages */
 .no-messages{
-  margin-top:14px;
   font-size:14px;
   color:#666;
+  margin-top:10px;
 }
 
 .no-line{
   opacity:0;
   transform:translateY(6px);
-  animation: slideIn .4s ease forwards;
+  animation:slideIn .4s ease forwards;
   margin-top:6px;
 }
 
@@ -140,15 +154,14 @@ button{
   to{opacity:1;transform:translateY(0)}
 }
 
-/* YES message */
 .message{
   display:none;
-  animation: fadeIn .4s ease;
-  margin-top:10px;
+  margin-top:18px;
+  animation:fadeIn .5s ease;
 }
 
 .message h2{
-  font-size:clamp(26px,4vw,40px);
+  font-size:clamp(28px,4.5vw,42px);
   margin-bottom:14px;
 }
 
@@ -161,70 +174,85 @@ button{
 </head>
 
 <body>
-<div class="glow"></div>
 
-<main class="card">
-  <h1>Aduu paduu,<br>will you be my forever?</h1>
+<!-- 🎶 SOFT MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_9f41a3b6d8.mp3" type="audio/mpeg">
+</audio>
 
-  <div class="heart">🤍</div>
+<div class="wrapper">
+  <main class="card">
+    <h1>Aduu paduu,<br>will you be my forever?</h1>
+    <div class="heart">🤍</div>
+    <div class="sub">Choose carefully 😌</div>
 
-  <div class="sub">Choose carefully 😌</div>
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
 
-  <div class="buttons">
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
-  </div>
+    <div class="no-messages" id="noMessages"></div>
 
-  <div class="no-messages" id="noMessages"></div>
+    <div class="message" id="yesMessage">
+      <h2>You chose YES 🥺💖</h2>
 
-  <div class="message" id="yesMessage">
-    <h2>You chose YES 🥺💖</h2>
+      <p>I knew it, Aduu paduu 🤍</p>
 
-    <p>I knew it, Aduu paduu 🤍</p>
+      <p>
+        Forever with you feels calm.  
+        It feels safe.  
+        It feels like home.
+      </p>
 
-    <p>
-      Forever with you feels calm.  
-      It feels safe.  
-      It feels like coming home.
-    </p>
+      <p>
+        Not a fairytale —  
+        but real days, real growth,  
+        and choosing the same heart every morning.
+      </p>
 
-    <p>
-      It’s choosing the same person every day —  
-      not because you have to,  
-      but because your heart already has.
-    </p>
+      <p>
+        If forever means effort, patience,  
+        and loving through everything —
+        I want all of it with you.
+      </p>
 
-    <p>
-      This isn’t about perfection.  
-      It’s about patience.  
-      Growth.  
-      And choosing love even on hard days.
-    </p>
-
-    <p>
-      If forever means learning, changing, growing —  
-      and still reaching for the same hand —
-      then I want all of it with you.
-    </p>
-
-    <p><strong>This isn’t just a yes.</strong><br>
-       <strong>It’s a lifetime 😌✨</strong></p>
-  </div>
-</main>
+      <p><strong>This isn’t just a yes.</strong><br>
+      <strong>It’s a lifetime 😌✨</strong></p>
+    </div>
+  </main>
+</div>
 
 <script>
+/* 🎶 start music on first interaction (browser safe) */
+document.body.addEventListener("click", () => {
+  const music = document.getElementById("bgMusic");
+  if (music.paused) music.play();
+}, { once:true });
+
+/* 🌸 white rose petals */
+setInterval(() => {
+  const petal = document.createElement("div");
+  petal.className = "petal";
+  petal.innerText = "❀";
+  petal.style.left = Math.random()*100 + "vw";
+  petal.style.fontSize = (14 + Math.random()*14) + "px";
+  petal.style.animationDuration = (6 + Math.random()*6) + "s";
+  document.body.appendChild(petal);
+  setTimeout(() => petal.remove(), 12000);
+}, 600);
+
+/* ❌ NO button messages */
 const noLines = [
-  "Hmm… are you sure? 🤍",
+  "Are you sure? 🤍",
   "Think again, Aduu paduu 🥺",
   "Forever sounds scary… but with me it’s safe 😌",
-  "I’d choose you every day, you know 💗",
-  "This option doesn’t feel right without you 🫶",
-  "Okay now you’re just teasing me 😭",
-  "You know the answer already 🤍"
+  "I’d choose you every day 💗",
+  "This option feels incomplete without you 🫶",
+  "Okay now you’re teasing me 😭",
+  "You already know the answer 🤍"
 ];
 
 let noCount = 0;
-
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const noMessages = document.getElementById("noMessages");
@@ -247,8 +275,10 @@ yesBtn.onclick = () => {
   yesMessage.style.display = "block";
 };
 </script>
+
 </body>
 </html>
+
 
 
 
