@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Will you be my forever?</title>
 
 <style>
 :root{
-  --pink1:#ffe6f0;
-  --pink2:#ffd1e3;
-  --pink3:#ffb7d5;
+  --pink1:#fff1f7;
+  --pink2:#ffd6e8;
+  --pink3:#ffbcd6;
   --accent:#ff5c9a;
-  --text:#2f2f2f;
-  --card:#ffffff;
+  --text:#2e2e2e;
 }
 
 *{box-sizing:border-box}
@@ -20,16 +19,11 @@
 body{
   margin:0;
   min-height:100vh;
-  background:linear-gradient(
-    120deg,
-    var(--pink1),
-    var(--pink2),
-    var(--pink3)
-  );
-  background-size:400% 400%;
-  animation:bgMove 14s ease infinite;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   color:var(--text);
+  background:linear-gradient(120deg,var(--pink1),var(--pink2),var(--pink3));
+  background-size:400% 400%;
+  animation:bgMove 18s ease infinite;
   overflow-x:hidden;
 }
 
@@ -39,62 +33,59 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* white rose petals */
+/* 🌸 white rose petals */
 .petal{
   position:fixed;
   top:-40px;
-  color:white;
-  font-size:18px;
+  width:22px;
   opacity:.85;
-  animation:fall linear forwards;
   pointer-events:none;
+  animation:fall linear forwards;
 }
 
 @keyframes fall{
   to{
-    transform:translateY(110vh) rotate(360deg);
+    transform:translateY(120vh) rotate(360deg);
     opacity:0;
   }
 }
 
-/* card */
+/* 🌷 layout */
 .wrapper{
-  display:grid;
-  place-items:center;
-  padding:40px 16px 80px;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:70px 20px;
 }
 
-.card{
-  width:min(720px,92vw);
-  background:var(--card);
-  border-radius:30px;
-  padding:42px 30px;
+.content{
+  max-width:720px;
   text-align:center;
-  box-shadow:0 25px 70px rgba(0,0,0,.18);
-  animation:fadeIn .8s ease;
+  animation:fadeUp 1s ease;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(.96)}
-  to{opacity:1;transform:scale(1)}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(25px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 h1{
-  font-size:clamp(30px,4.5vw,46px);
-  margin-bottom:6px;
+  font-size:clamp(34px,5vw,54px);
+  font-weight:800;
+  margin-bottom:10px;
 }
 
-.sub{
-  font-size:15px;
+.subtitle{
+  font-size:16px;
   opacity:.75;
-  margin-bottom:22px;
+  margin-bottom:28px;
 }
 
 .heart{
-  font-size:44px;
-  color:#ffdfe9;
-  animation:pulse 2s infinite;
-  margin:14px 0 26px;
+  font-size:46px;
+  animation:pulse 2.2s infinite;
+  margin:14px 0 32px;
 }
 
 @keyframes pulse{
@@ -103,19 +94,19 @@ h1{
   100%{transform:scale(1)}
 }
 
+/* buttons */
 .buttons{
   display:flex;
-  gap:18px;
   justify-content:center;
-  margin-bottom:18px;
+  gap:20px;
 }
 
 button{
-  padding:14px 32px;
-  font-size:18px;
-  font-weight:700;
+  padding:14px 36px;
   border-radius:999px;
   border:none;
+  font-size:18px;
+  font-weight:700;
   cursor:pointer;
   transition:transform .15s ease, background .15s ease;
 }
@@ -123,68 +114,71 @@ button{
 #yesBtn{
   background:var(--accent);
   color:white;
-  animation:yesPulse 2.2s infinite;
+  animation:yesGlow 2.5s infinite;
 }
 
-@keyframes yesPulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.06)}
-  100%{transform:scale(1)}
+@keyframes yesGlow{
+  0%{box-shadow:0 0 0 rgba(255,92,154,.4)}
+  50%{box-shadow:0 0 24px rgba(255,92,154,.55)}
+  100%{box-shadow:0 0 0 rgba(255,92,154,.4)}
 }
 
 #noBtn{
-  background:#f1f1f1;
+  background:rgba(255,255,255,.7);
   color:#444;
 }
 
+/* No responses */
 .no-messages{
+  margin-top:14px;
   font-size:14px;
-  color:#666;
-  margin-top:10px;
+  color:#555;
 }
 
 .no-line{
-  opacity:0;
-  transform:translateY(6px);
-  animation:slideIn .4s ease forwards;
   margin-top:6px;
+  opacity:0;
+  animation:slideIn .45s ease forwards;
 }
 
 @keyframes slideIn{
+  from{transform:translateY(6px)}
   to{opacity:1;transform:translateY(0)}
 }
 
+/* YES message */
 .message{
   display:none;
-  margin-top:18px;
-  animation:fadeIn .5s ease;
+  margin-top:36px;
+  animation:fadeUp .7s ease;
 }
 
 .message h2{
-  font-size:clamp(28px,4.5vw,42px);
-  margin-bottom:14px;
+  font-size:clamp(28px,4.5vw,46px);
+  margin-bottom:18px;
 }
 
 .message p{
   font-size:16px;
-  line-height:1.7;
-  margin-bottom:12px;
+  line-height:1.9;
+  margin-bottom:14px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎶 SOFT MUSIC -->
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_9f41a3b6d8.mp3" type="audio/mpeg">
+<!-- 🎶 background music -->
+<audio id="music" autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/03/audio_7b5c9a0f7a.mp3?filename=soft-piano-ambient-121997.mp3" type="audio/mpeg">
 </audio>
 
 <div class="wrapper">
-  <main class="card">
+  <div class="content">
+
     <h1>Aduu paduu,<br>will you be my forever?</h1>
+    <div class="subtitle">Choose with your heart 🤍</div>
     <div class="heart">🤍</div>
-    <div class="sub">Choose carefully 😌</div>
 
     <div class="buttons">
       <button id="yesBtn">Yes</button>
@@ -195,84 +189,63 @@ button{
 
     <div class="message" id="yesMessage">
       <h2>You chose YES 🥺💖</h2>
-
-      <p>I knew it, Aduu paduu 🤍</p>
-
-      <p>
-        Forever with you feels calm.  
-        It feels safe.  
-        It feels like home.
-      </p>
-
-      <p>
-        Not a fairytale —  
-        but real days, real growth,  
-        and choosing the same heart every morning.
-      </p>
-
-      <p>
-        If forever means effort, patience,  
-        and loving through everything —
-        I want all of it with you.
-      </p>
-
-      <p><strong>This isn’t just a yes.</strong><br>
-      <strong>It’s a lifetime 😌✨</strong></p>
+      <p>I knew it, Aduuu paduuu 🤍</p>
+      <p>Forever with you doesn’t feel heavy.<br>
+         It feels calm.<br>
+         It feels safe.<br>
+         It feels right.</p>
+      <p>This isn’t just a yes —<br>
+         it’s a lifetime we’re choosing together ✨</p>
     </div>
-  </main>
+
+  </div>
 </div>
 
 <script>
-/* 🎶 start music on first interaction (browser safe) */
-document.body.addEventListener("click", () => {
-  const music = document.getElementById("bgMusic");
-  if (music.paused) music.play();
-}, { once:true });
+/* 🌸 white rose petal SVG */
+const roseSVG = `
+<svg viewBox="0 0 24 24" fill="white">
+<path d="M12 2c2.5 2 4 4.5 4 7.5S14.5 15 12 15
+8 15 6 12.5 6 9.5 7.5 4 12 2z"/>
+</svg>`;
 
-/* 🌸 white rose petals */
-setInterval(() => {
-  const petal = document.createElement("div");
-  petal.className = "petal";
-  petal.innerText = "❀";
-  petal.style.left = Math.random()*100 + "vw";
-  petal.style.fontSize = (14 + Math.random()*14) + "px";
-  petal.style.animationDuration = (6 + Math.random()*6) + "s";
+/* petals loop */
+setInterval(()=>{
+  const petal=document.createElement("div");
+  petal.className="petal";
+  petal.innerHTML=roseSVG;
+  petal.style.left=Math.random()*100+"vw";
+  petal.style.animationDuration=(8+Math.random()*6)+"s";
+  petal.style.transform=`scale(${0.6+Math.random()})`;
   document.body.appendChild(petal);
-  setTimeout(() => petal.remove(), 12000);
-}, 600);
+  setTimeout(()=>petal.remove(),15000);
+},500);
 
-/* ❌ NO button messages */
-const noLines = [
-  "Are you sure? 🤍",
-  "Think again, Aduu paduu 🥺",
-  "Forever sounds scary… but with me it’s safe 😌",
-  "I’d choose you every day 💗",
-  "This option feels incomplete without you 🫶",
-  "Okay now you’re teasing me 😭",
-  "You already know the answer 🤍"
+/* No button logic */
+const noLines=[
+  "Hmm… are you sure? 🤍",
+  "Think again, my love 🥺",
+  "That doesn’t feel like the right answer 😌",
+  "Your heart knows the truth ✨",
+  "Forever sounds scary… until it’s us 💗",
+  "Okay last chance… choose love 🤍"
 ];
+let noIndex=0;
 
-let noCount = 0;
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const noMessages = document.getElementById("noMessages");
-const yesMessage = document.getElementById("yesMessage");
-
-noBtn.onclick = () => {
-  if (noCount < noLines.length) {
-    const line = document.createElement("div");
-    line.className = "no-line";
-    line.innerText = noLines[noCount];
-    noMessages.appendChild(line);
-    noCount++;
+document.getElementById("noBtn").onclick=()=>{
+  if(noIndex<noLines.length){
+    const line=document.createElement("div");
+    line.className="no-line";
+    line.textContent=noLines[noIndex++];
+    document.getElementById("noMessages").appendChild(line);
   }
 };
 
-yesBtn.onclick = () => {
-  noBtn.style.display = "none";
-  yesBtn.style.display = "none";
-  noMessages.style.display = "none";
-  yesMessage.style.display = "block";
+/* YES */
+document.getElementById("yesBtn").onclick=()=>{
+  document.querySelector(".buttons").style.display="none";
+  document.getElementById("noMessages").style.display="none";
+  document.getElementById("yesMessage").style.display="block";
 };
 </script>
 
