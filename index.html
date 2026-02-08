@@ -7,183 +7,223 @@
 
 <style>
 :root{
-  --bg:#fff7fb;
+  --bg1:#ffe6f0;
+  --bg2:#ffd1e3;
   --card:#ffffff;
-  --accent:#d4b982;
-  --text:#3f3f3f;
+  --pink:#ff5c9a;
+  --soft:#ff9fc4;
+  --text:#2f2f2f;
 }
 
-*{box-sizing:border-box;}
+*{box-sizing:border-box}
 
 body{
   margin:0;
   min-height:100vh;
   display:grid;
   place-items:center;
-  background:radial-gradient(circle at top,#ffffff,var(--bg));
+  background:radial-gradient(circle at top,var(--bg1),var(--bg2));
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   overflow:hidden;
 }
 
-/* floating hearts */
-.heart{
+/* subtle floating glow */
+.glow{
   position:fixed;
-  bottom:-20px;
-  font-size:18px;
-  opacity:.5;
-  animation:floatUp linear forwards;
+  inset:0;
   pointer-events:none;
-}
-@keyframes floatUp{
-  to{transform:translateY(-110vh) scale(1.6);opacity:0}
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,92,154,.18), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,159,196,.22), transparent 45%);
+  animation: drift 14s ease-in-out infinite alternate;
 }
 
-/* card */
+@keyframes drift{
+  from{transform:translateY(-10px)}
+  to{transform:translateY(10px)}
+}
+
 .card{
+  width:min(720px,92vw);
   background:var(--card);
-  padding:40px 30px;
-  width:min(500px,92vw);
+  padding:36px 28px;
+  border-radius:28px;
   text-align:center;
-  border-radius:26px;
-  box-shadow:0 20px 60px rgba(0,0,0,.12);
-  animation:pop .5s ease;
+  box-shadow:0 20px 60px rgba(0,0,0,.15);
+  animation: fadeIn .8s ease;
 }
 
-@keyframes pop{
+@keyframes fadeIn{
   from{opacity:0;transform:scale(.96)}
   to{opacity:1;transform:scale(1)}
 }
 
 h1{
-  font-size:clamp(26px,4vw,40px);
-  margin-bottom:12px;
+  font-size:clamp(28px,4vw,44px);
+  color:var(--text);
+  margin-bottom:10px;
 }
 
 .sub{
+  font-size:15px;
   opacity:.75;
-  margin-bottom:30px;
+  margin-bottom:28px;
 }
 
-/* buttons */
+/* heart pulse */
+.heart{
+  font-size:42px;
+  color:var(--soft);
+  animation:pulse 2s infinite;
+  margin:10px 0 24px;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.12)}
+  100%{transform:scale(1)}
+}
+
 .buttons{
-  position:relative;
-  height:120px;
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  margin-bottom:26px;
 }
 
 button{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  padding:16px 28px;
+  padding:14px 28px;
   font-size:18px;
-  font-weight:800;
-  border:none;
+  font-weight:700;
   border-radius:999px;
+  border:none;
   cursor:pointer;
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
-  transition:transform .15s ease;
+  transition:transform .15s ease, background .15s ease;
 }
 
 #yesBtn{
-  left:28%;
-  background:var(--accent);
+  background:var(--pink);
   color:#fff;
 }
 
+#yesBtn:hover{
+  transform:scale(1.05);
+}
+
 #noBtn{
-  left:55%;
-  background:#e5e7eb;
-  color:#111;
+  background:#f1f1f1;
+  color:#444;
 }
 
-/* result */
-.result{
-  display:none;
-  margin-top:20px;
-  animation:pop .5s ease;
+#noBtn:hover{
+  background:#e6e6e6;
 }
 
-.result h2{
-  font-size:clamp(28px,4vw,42px);
-}
-
+/* messages */
 .message{
-  margin-top:12px;
-  font-size:15px;
+  display:none;
+  animation:fadeIn .4s ease;
+}
+
+.message h2{
+  font-size:clamp(26px,4vw,40px);
+  margin-bottom:14px;
+}
+
+.message p{
+  font-size:16px;
   line-height:1.7;
-  opacity:.9;
+  margin-bottom:12px;
+}
+
+/* wrong choice */
+#wrong{
+  color:#888;
+  font-size:14px;
+  margin-top:10px;
+  animation:fadeIn .3s ease;
 }
 </style>
 </head>
 
 <body>
+<div class="glow"></div>
 
-<div class="card">
-  <h1>Aduu paduu,<br>will you be my forever? 🤍</h1>
+<main class="card">
+  <h1>Aduu paduu,<br>will you be my forever?</h1>
+
+  <div class="heart">🤍</div>
+
   <div class="sub">Choose carefully 😌</div>
 
-  <div class="buttons" id="zone">
-    <button id="yesBtn">Yes 💍</button>
+  <div class="buttons">
+    <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
   </div>
 
-  <div class="result" id="result">
-    <h2>You chose YES 🥺💖</h2>
-    <div class="message">
-      I knew it, Aduu paduu 🤍<br><br>
-      Forever with you feels easy.<br>
-      Feels warm.<br>
-      Feels right.<br><br>
-      This isn’t just a yes —<br>
-      it’s a lifetime 😌✨
-    </div>
+  <div id="wrong" style="display:none;">
+    That doesn’t feel right… try again 🤍
   </div>
-</div>
+
+  <div class="message" id="yesMessage">
+    <h2>You chose YES 🥺💖</h2>
+
+    <p>I knew it, Aduu paduu 🤍</p>
+
+    <p>
+      Forever with you doesn’t feel heavy.  
+      It doesn’t feel scary.  
+      It feels calm.
+    </p>
+
+    <p>
+      It feels like choosing the same person every day —  
+      not because you have to,  
+      but because you want to.
+    </p>
+
+    <p>
+      It feels like building a life where love is quiet, steady,  
+      and always safe.
+    </p>
+
+    <p>
+      This isn’t just a yes.  
+      This is choosing patience.  
+      Choosing growth.  
+      Choosing each other — even on hard days.
+    </p>
+
+    <p>
+      And if forever means growing old, changing, learning,  
+      and still reaching for the same hand —
+      then I want all of it with you.
+    </p>
+
+    <p><strong>This isn’t just a moment.</strong><br>
+       <strong>It’s a lifetime 😌✨</strong></p>
+  </div>
+</main>
 
 <script>
-/* floating hearts */
-setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerText="🤍";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(6+Math.random()*4)+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),10000);
-},700);
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const yesMessage = document.getElementById("yesMessage");
+const wrong = document.getElementById("wrong");
 
-/* buttons */
-const yesBtn=document.getElementById("yesBtn");
-const noBtn=document.getElementById("noBtn");
-const zone=document.getElementById("zone");
-const result=document.getElementById("result");
+yesBtn.onclick = () => {
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+  wrong.style.display = "none";
+  yesMessage.style.display = "block";
+};
 
-let yesScale=1;
-
-noBtn.addEventListener("mouseover",()=>{
-  const z=zone.getBoundingClientRect();
-  const b=noBtn.getBoundingClientRect();
-
-  const x=Math.random()*(z.width-b.width);
-  const y=Math.random()*(z.height-b.height);
-
-  noBtn.style.left=x+"px";
-  noBtn.style.top=y+"px";
-
-  yesScale=Math.min(2.2,yesScale+0.12);
-  yesBtn.style.transform=`translateY(-50%) scale(${yesScale})`;
-});
-
-noBtn.addEventListener("click",()=>{
-  alert("Wrong option 😌🤍\nTry again, Aduu paduu.");
-});
-
-yesBtn.addEventListener("click",()=>{
-  zone.style.display="none";
-  result.style.display="block";
-});
+noBtn.onclick = () => {
+  wrong.style.display = "block";
+};
 </script>
-
 </body>
 </html>
+
+
 
