@@ -27,26 +27,26 @@ body{
   overflow:hidden;
 }
 
-/* subtle floating glow */
+/* floating glow animation */
 .glow{
   position:fixed;
   inset:0;
   pointer-events:none;
   background:
-    radial-gradient(circle at 20% 30%, rgba(255,92,154,.18), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(255,159,196,.22), transparent 45%);
-  animation: drift 14s ease-in-out infinite alternate;
+    radial-gradient(circle at 25% 30%, rgba(255,92,154,.18), transparent 40%),
+    radial-gradient(circle at 75% 70%, rgba(255,159,196,.22), transparent 45%);
+  animation: drift 12s ease-in-out infinite alternate;
 }
 
 @keyframes drift{
-  from{transform:translateY(-10px)}
-  to{transform:translateY(10px)}
+  from{transform:translateY(-12px)}
+  to{transform:translateY(12px)}
 }
 
 .card{
   width:min(720px,92vw);
   background:var(--card);
-  padding:36px 28px;
+  padding:38px 28px;
   border-radius:28px;
   text-align:center;
   box-shadow:0 20px 60px rgba(0,0,0,.15);
@@ -61,21 +61,21 @@ body{
 h1{
   font-size:clamp(28px,4vw,44px);
   color:var(--text);
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .sub{
   font-size:15px;
   opacity:.75;
-  margin-bottom:28px;
+  margin-bottom:22px;
 }
 
-/* heart pulse */
+/* pulsing heart */
 .heart{
   font-size:42px;
   color:var(--soft);
   animation:pulse 2s infinite;
-  margin:10px 0 24px;
+  margin:12px 0 24px;
 }
 
 @keyframes pulse{
@@ -86,13 +86,13 @@ h1{
 
 .buttons{
   display:flex;
-  gap:16px;
+  gap:18px;
   justify-content:center;
-  margin-bottom:26px;
+  margin-bottom:18px;
 }
 
 button{
-  padding:14px 28px;
+  padding:14px 30px;
   font-size:18px;
   font-weight:700;
   border-radius:999px;
@@ -104,10 +104,13 @@ button{
 #yesBtn{
   background:var(--pink);
   color:#fff;
+  animation: yesPulse 2.2s infinite;
 }
 
-#yesBtn:hover{
-  transform:scale(1.05);
+@keyframes yesPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+  100%{transform:scale(1)}
 }
 
 #noBtn{
@@ -119,10 +122,29 @@ button{
   background:#e6e6e6;
 }
 
-/* messages */
+/* No-response messages */
+.no-messages{
+  margin-top:14px;
+  font-size:14px;
+  color:#666;
+}
+
+.no-line{
+  opacity:0;
+  transform:translateY(6px);
+  animation: slideIn .4s ease forwards;
+  margin-top:6px;
+}
+
+@keyframes slideIn{
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* YES message */
 .message{
   display:none;
-  animation:fadeIn .4s ease;
+  animation: fadeIn .4s ease;
+  margin-top:10px;
 }
 
 .message h2{
@@ -134,14 +156,6 @@ button{
   font-size:16px;
   line-height:1.7;
   margin-bottom:12px;
-}
-
-/* wrong choice */
-#wrong{
-  color:#888;
-  font-size:14px;
-  margin-top:10px;
-  animation:fadeIn .3s ease;
 }
 </style>
 </head>
@@ -161,9 +175,7 @@ button{
     <button id="noBtn">No</button>
   </div>
 
-  <div id="wrong" style="display:none;">
-    That doesn’t feel right… try again 🤍
-  </div>
+  <div class="no-messages" id="noMessages"></div>
 
   <div class="message" id="yesMessage">
     <h2>You chose YES 🥺💖</h2>
@@ -171,59 +183,73 @@ button{
     <p>I knew it, Aduu paduu 🤍</p>
 
     <p>
-      Forever with you doesn’t feel heavy.  
-      It doesn’t feel scary.  
-      It feels calm.
+      Forever with you feels calm.  
+      It feels safe.  
+      It feels like coming home.
     </p>
 
     <p>
-      It feels like choosing the same person every day —  
+      It’s choosing the same person every day —  
       not because you have to,  
-      but because you want to.
+      but because your heart already has.
     </p>
 
     <p>
-      It feels like building a life where love is quiet, steady,  
-      and always safe.
+      This isn’t about perfection.  
+      It’s about patience.  
+      Growth.  
+      And choosing love even on hard days.
     </p>
 
     <p>
-      This isn’t just a yes.  
-      This is choosing patience.  
-      Choosing growth.  
-      Choosing each other — even on hard days.
-    </p>
-
-    <p>
-      And if forever means growing old, changing, learning,  
+      If forever means learning, changing, growing —  
       and still reaching for the same hand —
       then I want all of it with you.
     </p>
 
-    <p><strong>This isn’t just a moment.</strong><br>
+    <p><strong>This isn’t just a yes.</strong><br>
        <strong>It’s a lifetime 😌✨</strong></p>
   </div>
 </main>
 
 <script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const yesMessage = document.getElementById("yesMessage");
-const wrong = document.getElementById("wrong");
+const noLines = [
+  "Hmm… are you sure? 🤍",
+  "Think again, Aduu paduu 🥺",
+  "Forever sounds scary… but with me it’s safe 😌",
+  "I’d choose you every day, you know 💗",
+  "This option doesn’t feel right without you 🫶",
+  "Okay now you’re just teasing me 😭",
+  "You know the answer already 🤍"
+];
 
-yesBtn.onclick = () => {
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
-  wrong.style.display = "none";
-  yesMessage.style.display = "block";
-};
+let noCount = 0;
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const noMessages = document.getElementById("noMessages");
+const yesMessage = document.getElementById("yesMessage");
 
 noBtn.onclick = () => {
-  wrong.style.display = "block";
+  if (noCount < noLines.length) {
+    const line = document.createElement("div");
+    line.className = "no-line";
+    line.innerText = noLines[noCount];
+    noMessages.appendChild(line);
+    noCount++;
+  }
+};
+
+yesBtn.onclick = () => {
+  noBtn.style.display = "none";
+  yesBtn.style.display = "none";
+  noMessages.style.display = "none";
+  yesMessage.style.display = "block";
 };
 </script>
 </body>
 </html>
+
 
 
 
