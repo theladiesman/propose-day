@@ -1,129 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aduu paduu, will you be my forever?</title>
 
-<!-- Soft instrumental music -->
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_7e1d5a8e07.mp3" type="audio/mpeg">
-</audio>
-
 <style>
-:root {
+:root{
   --pink1:#ffd6e7;
-  --pink2:#fff1f7;
-  --pink3:#ffc1d9;
+  --pink2:#ffeef6;
+  --pink3:#ffb6d5;
+  --accent:#ff4f9a;
+  --text:#2b2b2b;
 }
 
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
+body{
   margin:0;
   min-height:100vh;
-  font-family: system-ui, sans-serif;
-  background: linear-gradient(120deg, var(--pink1), var(--pink2), var(--pink3));
-  background-size: 300% 300%;
-  animation: bgMove 18s ease infinite;
-  overflow-x: hidden;
-  color:#2b2b2b;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  background:linear-gradient(120deg,var(--pink1),var(--pink2),var(--pink3));
+  background-size:300% 300%;
+  animation:bgMove 12s ease infinite;
 }
 
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
-main {
+main{
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   text-align:center;
   padding:40px 20px;
 }
 
-h1 {
-  font-size: clamp(32px,5vw,52px);
+/* HEART / ROSE */
+.heart{
+  font-size:80px;
+  animation:pulse 2.5s ease-in-out infinite;
   margin-bottom:10px;
 }
-
-.sub {
-  opacity:.8;
-  margin-bottom:30px;
-  font-size:16px;
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.12)}
 }
 
-.rose {
-  width:160px;
+h1{
+  font-size:clamp(28px,4vw,48px);
   margin:20px 0;
-  animation: float 6s ease-in-out infinite;
-  filter: drop-shadow(0 10px 25px rgba(255,255,255,.6));
 }
 
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
+.sub{
+  opacity:.7;
+  margin-bottom:30px;
 }
 
-.buttons {
-  margin-top:30px;
+/* BUTTONS */
+.buttons{
   display:flex;
   gap:20px;
+  flex-wrap:wrap;
 }
 
-button {
-  padding:16px 28px;
-  font-size:18px;
-  font-weight:700;
+button{
+  padding:16px 30px;
   border-radius:999px;
   border:none;
+  font-size:18px;
+  font-weight:700;
   cursor:pointer;
+  transition:.2s ease;
 }
 
-#yes {
-  background:#ff4f87;
-  color:#fff;
+#yes{
+  background:var(--accent);
+  color:white;
 }
+#yes:hover{transform:scale(1.05)}
 
-#no {
+#no{
   background:#eee;
+  color:#333;
 }
 
-.no-lines {
+/* NO MESSAGES */
+#convince{
   margin-top:20px;
-  font-size:15px;
-  opacity:.9;
-  max-width:320px;
+  min-height:40px;
+  font-size:16px;
+  opacity:.85;
 }
 
-.result {
+/* YES SCENE */
+#scene2{
   display:none;
-  max-width:620px;
-  animation: fadeIn .6s ease;
+  flex-direction:column;
+  gap:20px;
+  max-width:700px;
 }
 
-@keyframes fadeIn {
-  from { opacity:0; transform: translateY(10px); }
-  to { opacity:1; transform:none; }
+/* WHY IT MEANS SO MUCH */
+.why{
+  margin-top:40px;
+  font-size:16px;
+  line-height:1.8;
+  opacity:.9;
 }
 
-/* White rose petals */
-.petal {
+/* PETALS */
+.petal{
   position:fixed;
   top:-40px;
-  width:22px;
-  opacity:.6;
-  animation: fall linear forwards;
+  width:28px;
+  opacity:.8;
   pointer-events:none;
+  animation:fall linear forwards;
 }
 
-@keyframes fall {
-  to {
-    transform: translateY(110vh) rotate(360deg);
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
     opacity:0;
   }
 }
@@ -132,72 +137,102 @@ button {
 
 <body>
 
-<main id="scene1">
-  <h1>Aduu paduu,<br>will you be my forever?</h1>
-  <div class="sub">Choose carefully ☺️</div>
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/26/audio_73d9d45c6c.mp3" type="audio/mpeg">
+</audio>
 
-  <!-- White Rose SVG -->
-  <svg class="rose" viewBox="0 0 200 200">
-    <path fill="#ffffff" d="M100 30c20 0 40 20 40 40s-20 40-40 40-40-20-40-40 20-40 40-40z"/>
-    <path fill="#f5f5f5" d="M100 60c15 0 30 15 30 30s-15 30-30 30-30-15-30-30 15-30 30-30z"/>
-  </svg>
+<main id="scene1">
+  <div class="heart">🤍</div>
+
+  <h1>Aduu paduu,<br>will you be my forever?</h1>
+
+  <div class="sub">Choose carefully ☺️</div>
 
   <div class="buttons">
     <button id="yes">Yes</button>
     <button id="no">No</button>
   </div>
 
-  <div class="no-lines" id="noLines"></div>
+  <div id="convince"></div>
 </main>
 
-<main id="scene2" class="result">
+<main id="scene2">
   <h1>You chose YES 🥺💖</h1>
+
+  <p>I knew it, Aduu paduu 🤍</p>
+
   <p>
-    I knew it, Aduu paduu 🤍<br><br>
     Forever with you feels easy.<br>
     It feels warm.<br>
-    It feels right.<br><br>
+    It feels right.
+  </p>
+
+  <p>
     This isn’t just a yes —<br>
     it’s a lifetime ✨
   </p>
+
+  <div class="why">
+    <strong>Why this means so much to me:</strong><br><br>
+
+    Because choosing you wasn’t something I had to think about —  
+    it felt natural, like my heart already knew.<br><br>
+
+    You make the chaos in my head quieter.  
+    You make ordinary days feel special without even trying.<br><br>
+
+    With you, love doesn’t feel heavy or scary —  
+    it feels safe, honest, and calm.<br><br>
+
+    Choosing you forever means choosing peace, laughter, growth,  
+    and a life where I never have to pretend.<br><br>
+
+    And that… means everything to me 🤍
+  </div>
 </main>
 
 <script>
-const noLines = [
-  "Are you sure? My heart is already yours 🤍",
-  "Think again… forever sounds nice with us 🥺",
-  "I promise I’ll choose you every single day 💖",
-  "This button exists only to tease you 😌",
-  "Okay but… imagine us years from now 🤍"
+/* NO BUTTON LINES */
+const lines = [
+  "Are you sure? 🥺",
+  "Think again, Aduu paduu 🤍",
+  "This option doesn’t feel right…",
+  "Forever sounds scary, but with me it’s soft.",
+  "You know your heart already chose 💖"
 ];
-
-let noCount = 0;
+let count = 0;
 
 document.getElementById("no").onclick = () => {
-  document.getElementById("noLines").innerText = noLines[noCount % noLines.length];
-  noCount++;
+  document.getElementById("convince").innerText =
+    lines[Math.min(count, lines.length-1)];
+  count++;
 };
 
+/* YES BUTTON */
 document.getElementById("yes").onclick = () => {
-  document.getElementById("scene1").style.display = "none";
-  document.getElementById("scene2").style.display = "flex";
+  document.getElementById("scene1").style.display="none";
+  const s2=document.getElementById("scene2");
+  s2.style.display="flex";
   document.getElementById("bgMusic").play();
 };
 
-// Petals
-setInterval(() => {
-  const p = document.createElement("img");
-  p.src = "https://upload.wikimedia.org/wikipedia/commons/3/36/White_rose_petal.svg";
-  p.className = "petal";
-  p.style.left = Math.random()*100 + "vw";
-  p.style.animationDuration = (6 + Math.random()*4) + "s";
+/* PETALS */
+setInterval(()=>{
+  const p=document.createElement("div");
+  p.className="petal";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(6+Math.random()*5)+"s";
+  p.innerHTML=`<svg viewBox="0 0 64 64" fill="white">
+    <path d="M32 4C20 18 8 28 8 40a24 24 0 0048 0C56 28 44 18 32 4z"/>
+  </svg>`;
   document.body.appendChild(p);
-  setTimeout(() => p.remove(), 10000);
-}, 700);
+  setTimeout(()=>p.remove(),12000);
+},700);
 </script>
 
 </body>
 </html>
+
 
 
 
