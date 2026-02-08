@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Will you be my forever?</title>
+
+<style>
+:root{
+  --bg:#fff7fb;
+  --card:#ffffff;
+  --accent:#d4b982;
+  --text:#3f3f3f;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle at top,#ffffff,var(--bg));
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  overflow:hidden;
+}
+
+/* floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  opacity:.5;
+  animation:floatUp linear forwards;
+  pointer-events:none;
+}
+@keyframes floatUp{
+  to{transform:translateY(-110vh) scale(1.6);opacity:0}
+}
+
+/* card */
+.card{
+  background:var(--card);
+  padding:40px 30px;
+  width:min(500px,92vw);
+  text-align:center;
+  border-radius:26px;
+  box-shadow:0 20px 60px rgba(0,0,0,.12);
+  animation:pop .5s ease;
+}
+
+@keyframes pop{
+  from{opacity:0;transform:scale(.96)}
+  to{opacity:1;transform:scale(1)}
+}
+
+h1{
+  font-size:clamp(26px,4vw,40px);
+  margin-bottom:12px;
+}
+
+.sub{
+  opacity:.75;
+  margin-bottom:30px;
+}
+
+/* buttons */
+.buttons{
+  position:relative;
+  height:120px;
+}
+
+button{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  padding:16px 28px;
+  font-size:18px;
+  font-weight:800;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  transition:transform .15s ease;
+}
+
+#yesBtn{
+  left:28%;
+  background:var(--accent);
+  color:#fff;
+}
+
+#noBtn{
+  left:55%;
+  background:#e5e7eb;
+  color:#111;
+}
+
+/* result */
+.result{
+  display:none;
+  margin-top:20px;
+  animation:pop .5s ease;
+}
+
+.result h2{
+  font-size:clamp(28px,4vw,42px);
+}
+
+.message{
+  margin-top:12px;
+  font-size:15px;
+  line-height:1.7;
+  opacity:.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Aduu paduu,<br>will you be my forever? 🤍</h1>
+  <div class="sub">Choose carefully 😌</div>
+
+  <div class="buttons" id="zone">
+    <button id="yesBtn">Yes 💍</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div class="result" id="result">
+    <h2>You chose YES 🥺💖</h2>
+    <div class="message">
+      I knew it, Aduu paduu 🤍<br><br>
+      Forever with you feels easy.<br>
+      Feels warm.<br>
+      Feels right.<br><br>
+      This isn’t just a yes —<br>
+      it’s a lifetime 😌✨
+    </div>
+  </div>
+</div>
+
+<script>
+/* floating hearts */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="🤍";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(6+Math.random()*4)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),10000);
+},700);
+
+/* buttons */
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const zone=document.getElementById("zone");
+const result=document.getElementById("result");
+
+let yesScale=1;
+
+noBtn.addEventListener("mouseover",()=>{
+  const z=zone.getBoundingClientRect();
+  const b=noBtn.getBoundingClientRect();
+
+  const x=Math.random()*(z.width-b.width);
+  const y=Math.random()*(z.height-b.height);
+
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+
+  yesScale=Math.min(2.2,yesScale+0.12);
+  yesBtn.style.transform=`translateY(-50%) scale(${yesScale})`;
+});
+
+noBtn.addEventListener("click",()=>{
+  alert("Wrong option 😌🤍\nTry again, Aduu paduu.");
+});
+
+yesBtn.addEventListener("click",()=>{
+  zone.style.display="none";
+  result.style.display="block";
+});
+</script>
+
+</body>
+</html>
+
